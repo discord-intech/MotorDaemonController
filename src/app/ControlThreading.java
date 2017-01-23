@@ -6,6 +6,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.Arrays;
 
 /**
  * Threads de contrôle du véhicule ; singleton
@@ -76,10 +77,12 @@ public class ControlThreading
         if(oos == null || socket == null || !socket.isConnected()) return;
 
         try {
-            oos.writeBytes(s+"\r");
+            byte[] r = Arrays.copyOfRange((s+"\r").getBytes(), 0, 2047);
+
+            oos.write(r);
             oos.flush();
 
-            Thread.sleep(20);
+            Thread.sleep(100);
         } catch (IOException|InterruptedException e) {
             e.printStackTrace();
         }

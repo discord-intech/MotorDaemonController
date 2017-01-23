@@ -2,9 +2,14 @@ package app;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.input.DragEvent;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 
+import java.awt.*;
 import java.awt.event.ActionEvent;
 
 public class Controller
@@ -40,7 +45,7 @@ public class Controller
                 break;
             }
             case DOWN: {
-                control.downP((long) speed_slider.getValue());
+                control.downP((long) -speed_slider.getValue());
                 break;
             }
             case LEFT: {
@@ -80,15 +85,14 @@ public class Controller
     }
 
     @FXML
-    void setSpeed(ActionEvent event)
+    void setSpeed(MouseEvent event)
     {
-        speed_info.setText("Speed : "+speed_slider.getValue());
+        speed_info.setText("Speed : "+(long)speed_slider.getValue());
     }
 
     @FXML
     void connect(MouseEvent event)
     {
-
         connected = control.connect(ip_typed.getText());
         status.setText(connected ? "Connection successful !" : "Connection failed !");
         if(connected) ip_typed.setDisable(true);
