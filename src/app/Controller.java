@@ -40,19 +40,19 @@ public class Controller
         if(!connected) return;
         switch(event.getCode())
         {
-            case UP: {
+            case Z: {
                 control.upP((long) speed_slider.getValue());
                 break;
             }
-            case DOWN: {
+            case S: {
                 control.downP((long) -speed_slider.getValue());
                 break;
             }
-            case LEFT: {
+            case Q: {
                 control.leftP();
                 break;
             }
-            case RIGHT: {
+            case D: {
                 control.rightP();
                 break;
             }
@@ -65,19 +65,19 @@ public class Controller
         if(!connected) return;
         switch(event.getCode())
         {
-            case UP: {
+            case Z: {
                 control.upR();
                 break;
             }
-            case DOWN: {
+            case S: {
                 control.downR();
                 break;
             }
-            case LEFT: {
+            case Q: {
                 control.leftR();
                 break;
             }
-            case RIGHT: {
+            case D: {
                 control.rightR();
                 break;
             }

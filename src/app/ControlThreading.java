@@ -32,6 +32,8 @@ public class ControlThreading
 
     private boolean right = false;
 
+    private long lastSpeed = 0;
+
     private ControlThreading() {}
 
     public static ControlThreading getInstance()
@@ -77,12 +79,12 @@ public class ControlThreading
         if(oos == null || socket == null || !socket.isConnected()) return;
 
         try {
-            byte[] r = Arrays.copyOfRange((s+"\r").getBytes(), 0, 2047);
+            byte[] r = Arrays.copyOfRange(s.getBytes(), 0, 2048);
 
             oos.write(r);
             oos.flush();
 
-            Thread.sleep(100);
+            Thread.sleep(20);
         } catch (IOException|InterruptedException e) {
             e.printStackTrace();
         }
@@ -95,18 +97,17 @@ public class ControlThreading
         if(down || up) return;
         up = true;
 
-        send("sets "+speed);
+        if(speed != lastSpeed)
+        {
+            send("sets "+speed);
+            lastSpeed = speed;
+        }
         send("go");
     }
 
     public void upR()
     {
         up = false;
-        try {
-            Thread.sleep(100);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
         stop();
     }
 
@@ -115,18 +116,17 @@ public class ControlThreading
         if(down || up) return;
         down = true;
 
-        send("sets "+speed);
+        if(speed != lastSpeed)
+        {
+            send("sets "+speed);
+            lastSpeed = speed;
+        }
         send("go");
     }
 
     public void downR()
     {
         down = false;
-        try {
-            Thread.sleep(100);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
         stop();
     }
 
@@ -141,11 +141,6 @@ public class ControlThreading
     public void leftR()
     {
         left = false;
-        try {
-            Thread.sleep(100);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
         resetRadius();
     }
 
@@ -160,11 +155,6 @@ public class ControlThreading
     public void rightR()
     {
         right = false;
-        try {
-            Thread.sleep(100);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
         resetRadius();
     }
 
