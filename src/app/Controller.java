@@ -1,29 +1,23 @@
 package app;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ProgressBar;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 
-public class Controller {
+import java.awt.event.ActionEvent;
 
-    @FXML
-    private ProgressBar up_bar;
-
-    @FXML
-    private ProgressBar down_bar;
-
-    @FXML
-    private ProgressBar left_bar;
-
-    @FXML
-    private ProgressBar right_bar;
+public class Controller
+{
 
     @FXML
     private Button connect_button;
+
+    @FXML
+    private Label speed_info;
+
+    @FXML
+    private Slider speed_slider;
 
     @FXML
     private TextField ip_typed;
@@ -42,19 +36,19 @@ public class Controller {
         switch(event.getCode())
         {
             case UP: {
-                control.upP(up_bar);
+                control.upP((long) speed_slider.getValue());
                 break;
             }
             case DOWN: {
-                control.downP(down_bar);
+                control.downP((long) speed_slider.getValue());
                 break;
             }
             case LEFT: {
-                control.leftP(left_bar);
+                control.leftP();
                 break;
             }
             case RIGHT: {
-                control.rightP(right_bar);
+                control.rightP();
                 break;
             }
         }
@@ -68,27 +62,28 @@ public class Controller {
         {
             case UP: {
                 control.upR();
-                up_bar.setProgress(0);
                 break;
             }
             case DOWN: {
                 control.downR();
-                down_bar.setProgress(0);
                 break;
             }
             case LEFT: {
                 control.leftR();
-                left_bar.setProgress(0);
                 break;
             }
             case RIGHT: {
                 control.rightR();
-                right_bar.setProgress(0);
                 break;
             }
         }
     }
 
+    @FXML
+    void setSpeed(ActionEvent event)
+    {
+        speed_info.setText("Speed : "+speed_slider.getValue());
+    }
 
     @FXML
     void connect(MouseEvent event)

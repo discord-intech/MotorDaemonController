@@ -23,19 +23,11 @@ public class ControlThreading
 
     private static ControlThreading instance = null;
 
-    private Thread upThread;
-
     private boolean up = false;
-
-    private Thread downThread;
 
     private boolean down = false;
 
-    private Thread leftThread;
-
     private boolean left = false;
-
-    private Thread rightThread;
 
     private boolean right = false;
 
@@ -76,7 +68,7 @@ public class ControlThreading
 
     private void resetRadius()
     {
-        send("cr 1000000");
+        send("sweepstop");
     }
 
     private synchronized void send(String s)
@@ -95,31 +87,13 @@ public class ControlThreading
 
     //############################## KEY HANDLERS ############################
 
-    public void upP(ProgressBar bar)
+    public void upP(long speed)
     {
         if(down || up) return;
         up = true;
-        upThread = new Thread(() -> {
-            int progress = 0;
-            while(up)
-            {
-                progress += speedProgress;
-                if(progress > 255) progress = 255;
 
-                bar.setProgress(progress / 255.0);
-
-                send("sets "+(int)((progress/255.0) * 5000));
-                send("d "+500);
-
-                try {
-                    Thread.sleep((long) (1000.0 / (255./speedProgress)));
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-
-        upThread.start();
+        send("sets "+speed);
+        send("go");
     }
 
     public void upR()
@@ -133,31 +107,13 @@ public class ControlThreading
         stop();
     }
 
-    public void downP(ProgressBar bar)
+    public void downP(long speed)
     {
         if(down || up) return;
         down = true;
-        downThread = new Thread(() -> {
-            int progress = 0;
-            while(down)
-            {
-                progress += speedProgress;
-                if(progress > 255) progress = 255;
 
-                bar.setProgress(progress / 255.0);
-
-                send("sets "+(int)((progress/255.0) * 5000));
-                send("d "+(-500));
-
-                try {
-                    Thread.sleep((long) (1000.0 / (255./speedProgress)));
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-
-        downThread.start();
+        send("sets "+speed);
+        send("go");
     }
 
     public void downR()
@@ -171,30 +127,12 @@ public class ControlThreading
         stop();
     }
 
-    public void leftP(ProgressBar bar)
+    public void leftP()
     {
         if(right || left) return;
         left = true;
-        leftThread = new Thread(() -> {
-            int progress = 0;
-            while(left)
-            {
-                progress += directionProgress;
-                if(progress > 1000000) progress = 1000000;
 
-                bar.setProgress(progress / 1000000.0);
-
-                send("cr "+(int)(-(progress-1000000)));
-
-                try {
-                    Thread.sleep((long) (1000.0 / (1000000./directionProgress)));
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-
-        leftThread.start();
+        send("sweepL");
     }
 
     public void leftR()
@@ -208,29 +146,12 @@ public class ControlThreading
         resetRadius();
     }
 
-    public void rightP(ProgressBar bar)
+    public void rightP()
     {
         if(right || left) return;
         right = true;
-        rightThread = new Thread(() -> {
-            int progress = 0;
-            while(right)
-            {
-                progress += directionProgress;
-                if(progress > 1000000) progress = 1000000;
 
-                bar.setProgress(progress / 1000000.0);
-                send("cr "+(int)(progress-1000000));
-
-                try {
-                    Thread.sleep((long) (1000.0 / (1000000.0/directionProgress)));
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-
-        rightThread.start();
+        send("sweepR");
     }
 
     public void rightR()
