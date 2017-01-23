@@ -13,11 +13,6 @@ import java.util.Arrays;
  */
 public class ControlThreading
 {
-
-    private final int speedProgress = 50; // inc/sec out of 255 incs
-
-    private final int directionProgress =5000; // inc/sec out of 1000000 incs
-
     private Socket socket = null;
 
     private DataOutputStream oos = null;
@@ -121,7 +116,7 @@ public class ControlThreading
             send("sets "+speed);
             lastSpeed = speed;
         }
-        send("go");
+        send("gor");
     }
 
     public void downR()

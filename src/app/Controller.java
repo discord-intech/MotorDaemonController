@@ -45,7 +45,7 @@ public class Controller
                 break;
             }
             case S: {
-                control.downP((long) -speed_slider.getValue());
+                control.downP((long) speed_slider.getValue());
                 break;
             }
             case Q: {
