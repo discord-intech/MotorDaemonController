@@ -74,6 +74,8 @@ public class ControlThreading
         if(oos == null || socket == null || !socket.isConnected()) return;
 
         try {
+            s += "\r";
+
             byte[] r = Arrays.copyOfRange(s.getBytes(), 0, 2048);
 
             oos.write(r);
