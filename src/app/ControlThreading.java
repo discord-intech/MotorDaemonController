@@ -19,6 +19,8 @@ public class ControlThreading
 
     private static ControlThreading instance = null;
 
+    private final int counterRepeatThreshhold = 10;
+
     private boolean up = false;
 
     private boolean down = false;
@@ -26,6 +28,8 @@ public class ControlThreading
     private boolean left = false;
 
     private boolean right = false;
+
+    private int GOcounter = 0;
 
     private long lastSpeed = 0;
 
@@ -73,6 +77,8 @@ public class ControlThreading
     {
         if(oos == null || socket == null || !socket.isConnected()) return;
 
+        System.out.println(s);
+
         try {
             byte[] r = Arrays.copyOfRange(s.getBytes(), 0, 1024);
 
@@ -89,7 +95,14 @@ public class ControlThreading
 
     public void upP(long speed)
     {
-        if(down || up) return;
+        if(down || up)
+        {
+            GOcounter++;
+
+            if(GOcounter < counterRepeatThreshhold) return;
+        }
+
+        GOcounter = 0;
         up = true;
 
         if(speed != lastSpeed)
@@ -103,12 +116,20 @@ public class ControlThreading
     public void upR()
     {
         up = false;
+        GOcounter = 0;
         stop();
     }
 
     public void downP(long speed)
     {
-        if(down || up) return;
+        if(down || up)
+        {
+            GOcounter++;
+
+            if(GOcounter < counterRepeatThreshhold) return;
+        }
+
+        GOcounter = 0;
         down = true;
 
         if(speed != lastSpeed)
@@ -122,6 +143,7 @@ public class ControlThreading
     public void downR()
     {
         down = false;
+        GOcounter = 0;
         stop();
     }
 
