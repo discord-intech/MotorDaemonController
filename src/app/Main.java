@@ -5,6 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import org.freedesktop.gstreamer.Gst;
 
 public class Main extends Application {
 
@@ -12,12 +13,13 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception{
         Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
         primaryStage.setTitle("MotorDaemon Remote Controller");
-        primaryStage.setScene(new Scene(root, 400, 400));
+        primaryStage.setScene(new Scene(root, 600, 600));
         primaryStage.show();
     }
 
 
     public static void main(String[] args) {
+        Gst.init("MotorDaemonController",args);
         launch(args);
     }
 }

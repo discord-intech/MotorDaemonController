@@ -91,6 +91,16 @@ public class ControlThreading
         }
     }
 
+    public void startCamera(String ip)
+    {
+        send("startcamera "+ip);
+    }
+
+    public void stopCamera()
+    {
+        send("stopcamera");
+    }
+
     //############################## KEY HANDLERS ############################
 
     public void upP(long speed)
