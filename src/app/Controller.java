@@ -156,6 +156,7 @@ public class Controller
         video_button.setDisable(true);
         stop_video.setVisible(true);
         stop_video.setDisable(false);
+        public_ip.setDisable(true);
         video.setVisible(true);
     }
 
@@ -165,6 +166,7 @@ public class Controller
         pipe.stop();
         control.stopCamera();
         video.setVisible(false);
+        public_ip.setDisable(false);
         stop_video.setDisable(true);
         stop_video.setVisible(false);
         video_button.setDisable(false);
