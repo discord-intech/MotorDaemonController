@@ -141,7 +141,7 @@ public class Controller
         videosink.setCaps(new Caps(caps.toString()));
         videosink.set("max-buffers", 5000);
         videosink.set("drop", true);
-        bin = Bin.launch("udpsrc address=localhost port=56988 ! application/x-rtp, media=video, encoding-name=JPEG, clock-rate=90000, payload=26 ! rtpjitterbuffer ! rtpjpegdepay ! jpegdec ! videoconvert", true);
+        bin = Bin.launch("udpsrc port=56988 ! application/x-rtp, media=video, encoding-name=JPEG, clock-rate=90000, payload=26 ! rtpjitterbuffer ! rtpjpegdepay ! jpegdec ! videoconvert", true);
         pipe = new Pipeline();
         pipe.addMany(bin, videosink);
 
