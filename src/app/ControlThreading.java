@@ -19,8 +19,6 @@ public class ControlThreading
 
     private BufferedReader iss = null;
 
-    private BackgroundCommunication background = BackgroundCommunication.getInstance();
-
     private static ControlThreading instance = null;
 
     private final int counterRepeatThreshhold = 10;
@@ -65,12 +63,20 @@ public class ControlThreading
             socket = new Socket(ip, 56987);
             oos = new DataOutputStream(socket.getOutputStream());
             iss = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+
+            oos.write("motordaemon".getBytes());
+            oos.flush();
         } catch (IOException e) {
             e.printStackTrace();
             return false;
         }
 
-        return true;
+        if(socket.isConnected()) return true;
+        else
+        {
+            System.out.println("Socket rage-quit.");
+            return false;
+        }
 
     }
 
