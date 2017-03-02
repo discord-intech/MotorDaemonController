@@ -11,17 +11,18 @@
 
 <GridPane alignment="center" hgap="10" onKeyPressed="#onKeyPressed" onKeyReleased="#onKeyReleased" prefHeight="419.0" prefWidth="420.0" vgap="10" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.Controller">
    <children>
-      <Slider fx:id="speed_slider" max="3000.0" min="1000.0" onMouseReleased="#setSpeed" value="1500.0" GridPane.columnIndex="2" GridPane.rowIndex="2" />
-      <Button fx:id="connect_button" mnemonicParsing="false" onMouseClicked="#connect" text="Connect" GridPane.halignment="CENTER" GridPane.rowIndex="5" />
-      <TextField fx:id="ip_typed" alignment="CENTER" promptText="INTechOS IP" GridPane.rowIndex="4" />
-      <Label text="INTechOS Remote Controller" GridPane.rowIndex="2" />
-      <Label fx:id="status" text="Waiting for connection..." GridPane.columnIndex="2" GridPane.rowIndex="4" />
-      <Label fx:id="speed_info" text="Speed : 1500" GridPane.columnIndex="2" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
-      <Label text="Use arrow keys to pilot" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
-      <ImageView fx:id="video" fitHeight="213.0" fitWidth="342.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="7" />
-      <Button fx:id="video_button" mnemonicParsing="false" onMouseClicked="#launchVideo" text="Start video" GridPane.rowIndex="7" />
-      <Button fx:id="stop_video" disable="true" mnemonicParsing="false" onMouseClicked="#stopVideo" text="Stop video" visible="false" GridPane.rowIndex="7" />
-      <TextField fx:id="public_ip" alignment="CENTER" promptText="This PC's public IP" GridPane.rowIndex="6" GridPane.valignment="BOTTOM" />
+      <Slider fx:id="speed_slider" max="3000.0" min="1000.0" onMouseReleased="#setSpeed" value="1500.0" GridPane.columnIndex="2" GridPane.rowIndex="4" />
+      <Button fx:id="connect_button" mnemonicParsing="false" onMouseClicked="#connect" text="Connect" GridPane.halignment="CENTER" GridPane.rowIndex="7" />
+      <TextField fx:id="ip_typed" alignment="CENTER" promptText="INTechOS IP" GridPane.rowIndex="6" />
+      <Label text="INTechOS Remote Controller" GridPane.rowIndex="4" />
+      <Label fx:id="status" text="Waiting for connection..." GridPane.columnIndex="2" GridPane.rowIndex="6" />
+      <Label fx:id="speed_info" text="Speed : 1500" GridPane.columnIndex="2" GridPane.rowIndex="5" GridPane.valignment="CENTER" />
+      <Label text="Use arrow keys to pilot" GridPane.rowIndex="5" GridPane.valignment="CENTER" />
+      <ImageView fx:id="video" fitHeight="213.0" fitWidth="342.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="9" />
+      <Button fx:id="video_button" mnemonicParsing="false" onMouseClicked="#launchVideo" text="Start video" GridPane.rowIndex="9" />
+      <Button fx:id="stop_video" disable="true" mnemonicParsing="false" onMouseClicked="#stopVideo" text="Stop video" visible="false" GridPane.rowIndex="9" />
+      <TextField fx:id="public_ip" alignment="CENTER" promptText="This PC's public IP" GridPane.rowIndex="8" GridPane.valignment="BOTTOM" />
+      <Label fx:id="position" text="x = 0 ; y = 0 ; θ = 0" GridPane.rowIndex="3" />
    </children>
    <columnConstraints>
       <ColumnConstraints maxWidth="190.0" minWidth="10.0" prefWidth="190.0" />
@@ -29,13 +30,15 @@
       <ColumnConstraints maxWidth="195.0" minWidth="150.0" prefWidth="167.0" />
    </columnConstraints>
    <rowConstraints>
+      <RowConstraints />
       <RowConstraints maxHeight="0.0" minHeight="0.0" prefHeight="0.0" />
       <RowConstraints maxHeight="39.0" minHeight="0.0" prefHeight="0.0" />
-      <RowConstraints maxHeight="64.0" minHeight="10.0" prefHeight="63.0" />
-      <RowConstraints maxHeight="39.0" minHeight="10.0" prefHeight="27.0" />
-      <RowConstraints maxHeight="67.0" minHeight="10.0" prefHeight="41.0" />
-      <RowConstraints maxHeight="35.0" minHeight="10.0" prefHeight="16.0" />
-      <RowConstraints maxHeight="57.0" minHeight="10.0" prefHeight="54.0" />
-      <RowConstraints maxHeight="57.0" minHeight="10.0" prefHeight="54.0" />
+      <RowConstraints maxHeight="64.0" minHeight="10.0" prefHeight="24.0" />
+      <RowConstraints maxHeight="103.0" minHeight="10.0" prefHeight="53.0" />
+      <RowConstraints maxHeight="76.0" minHeight="10.0" prefHeight="30.0" />
+      <RowConstraints maxHeight="87.0" minHeight="10.0" prefHeight="37.0" />
+      <RowConstraints maxHeight="66.0" minHeight="10.0" prefHeight="20.0" />
+      <RowConstraints maxHeight="100.0" minHeight="10.0" prefHeight="38.0" />
+      <RowConstraints maxHeight="126.0" minHeight="10.0" prefHeight="116.0" />
    </rowConstraints>
 </GridPane>

@@ -51,6 +51,7 @@ public class Controller
     private boolean connected;
 
     private ControlThreading control = ControlThreading.getInstance();
+    private BackgroundCommunication background = BackgroundCommunication.getInstance();
     private AppSink videosink;
     private Pipeline pipe;
     private Bin bin;
@@ -119,7 +120,12 @@ public class Controller
     {
         connected = control.connect(ip_typed.getText());
         status.setText(connected ? "Connection successful !" : "Connection failed !");
-        if(connected) ip_typed.setDisable(true);
+        if(connected)
+        {
+            ip_typed.setDisable(true);
+            background.setMotordaemonIsOnline(true);
+            background.start();
+        }
     }
 
     @FXML

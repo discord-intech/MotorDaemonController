@@ -1,12 +1,12 @@
 package app;
 
 import javafx.scene.control.ProgressBar;
+import javafx.util.Pair;
 
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
+import java.io.*;
 import java.net.Socket;
 import java.util.Arrays;
+import java.util.DoubleSummaryStatistics;
 
 /**
  * Threads de contrôle du véhicule ; singleton
@@ -16,6 +16,10 @@ public class ControlThreading
     private Socket socket = null;
 
     private DataOutputStream oos = null;
+
+    private BufferedReader iss = null;
+
+    private BackgroundCommunication background = BackgroundCommunication.getInstance();
 
     private static ControlThreading instance = null;
 
@@ -28,6 +32,12 @@ public class ControlThreading
     private boolean left = false;
 
     private boolean right = false;
+
+    private double x = 0;
+
+    private double y = 0;
+
+    private double o = 0;
 
     private int GOcounter = 0;
 
@@ -54,6 +64,7 @@ public class ControlThreading
         try {
             socket = new Socket(ip, 56987);
             oos = new DataOutputStream(socket.getOutputStream());
+            iss = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         } catch (IOException e) {
             e.printStackTrace();
             return false;
@@ -91,6 +102,29 @@ public class ControlThreading
         }
     }
 
+    private synchronized String[] sendAndReceive(String toSend, int numberOfLines)
+    {
+        if(oos == null || iss == null || socket == null || !socket.isConnected()) return null;
+
+        send(toSend);
+
+        String[] out = new String[numberOfLines];
+
+        try {
+
+            for(int i=0 ; i<numberOfLines ; i++)
+            {
+                out[i] = iss.readLine();
+                Thread.sleep(20);
+            }
+
+        } catch (IOException|InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        return out;
+    }
+
     public void startCamera(String ip)
     {
         send("startcamera "+ip);
@@ -99,6 +133,26 @@ public class ControlThreading
     public void stopCamera()
     {
         send("stopcamera");
+    }
+
+    public Double[] getPosition()
+    {
+        String[] sl = sendAndReceive("p", 1);
+
+        if(sl == null) return null;
+
+        String[] vals = sl[0].split(";");
+
+        x = Double.parseDouble(vals[0]);
+        y = Double.parseDouble(vals[1]);
+        o = Double.parseDouble(vals[2].replace("\r", "").replace("\n", ""));
+
+        return new Double[]{x,y,o};
+    }
+
+    public Double[] getPositionFast()
+    {
+        return new Double[]{x,y,o};
     }
 
     //############################## KEY HANDLERS ############################
