@@ -25,6 +25,9 @@ public class Controller
     private Button connect_button;
 
     @FXML
+    private Label position;
+
+    @FXML
     private Label speed_info;
 
     @FXML
@@ -124,6 +127,7 @@ public class Controller
         {
             ip_typed.setDisable(true);
             background.setMotordaemonIsOnline(true);
+            background.setPostionLabel(position);
             background.start();
         }
     }

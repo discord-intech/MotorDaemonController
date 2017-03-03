@@ -10,7 +10,7 @@ import javafx.util.Pair;
  */
 public class BackgroundCommunication extends Thread
 {
-    @FXML
+
     private Label position;
 
     private static BackgroundCommunication instance = null;
@@ -39,8 +39,10 @@ public class BackgroundCommunication extends Thread
             Double[] p = control.getPosition();
             if(p != null)
             {
-                Platform.runLater(() -> position.setText("x = "+Float.toString(p[0].floatValue())+" ; y = "
-                        + Float.toString(p[1].floatValue())+" ; θ = "+Float.toString(p[2].floatValue())));
+                Platform.runLater(() -> {
+                    position.setText("x = "+Float.toString(p[0].floatValue())+" ; y = "
+                            + Float.toString(p[1].floatValue())+" ; θ = "+Float.toString(p[2].floatValue()));
+                });
             }
 
             try {
@@ -55,6 +57,8 @@ public class BackgroundCommunication extends Thread
     {
         this.motordaemonIsOnline = state;
     }
+
+    public void setPostionLabel(Label pos) { this.position = pos; }
 
     public boolean getMotordaemonIsOnline()
     {
