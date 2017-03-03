@@ -41,7 +41,7 @@ public class BackgroundCommunication extends Thread
             {
                 Platform.runLater(() -> {
                     position.setText("x = "+Float.toString(p[0].floatValue())+" ; y = "
-                            + Float.toString(p[1].floatValue())+" ; θ = "+Float.toString(p[2].floatValue()));
+                            + Float.toString(p[1].floatValue())+"\nθ = "+Float.toString(p[2].floatValue()));
                 });
             }
 
