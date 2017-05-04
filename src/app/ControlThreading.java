@@ -21,7 +21,7 @@ public class ControlThreading
 
     private static ControlThreading instance = null;
 
-    private final int counterRepeatThreshhold = 10;
+    private final int counterRepeatThreshhold = 6;
 
     private boolean up = false;
 
@@ -97,7 +97,7 @@ public class ControlThreading
         //System.out.println(s);
 
         try {
-            byte[] r = Arrays.copyOfRange(s.getBytes(), 0, 1024);
+            byte[] r = Arrays.copyOfRange(s.getBytes(), 0, 65536);
 
             oos.write(r);
             oos.flush();

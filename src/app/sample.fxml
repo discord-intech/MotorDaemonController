@@ -4,6 +4,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Slider?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
@@ -11,10 +12,10 @@
 
 <GridPane alignment="center" hgap="10" onKeyPressed="#onKeyPressed" onKeyReleased="#onKeyReleased" prefHeight="419.0" prefWidth="420.0" vgap="10" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.Controller">
    <children>
-      <Slider fx:id="speed_slider" max="3000.0" min="1000.0" onMouseReleased="#setSpeed" value="1500.0" GridPane.columnIndex="2" GridPane.rowIndex="4" />
+      <Slider fx:id="speed_slider" max="1500.0" min="400.0" onMouseReleased="#setSpeed" value="1500.0" GridPane.columnIndex="2" GridPane.rowIndex="4" />
       <Button fx:id="connect_button" mnemonicParsing="false" onMouseClicked="#connect" text="Connect" GridPane.halignment="CENTER" GridPane.rowIndex="7" />
       <TextField fx:id="ip_typed" alignment="CENTER" promptText="INTechOS IP" GridPane.rowIndex="6" />
-      <Label text="INTechOS Remote Controller" GridPane.rowIndex="4" />
+      <Label text="SecuBot Remote Controller" GridPane.rowIndex="4" />
       <Label fx:id="status" text="Waiting for connection..." GridPane.columnIndex="2" GridPane.rowIndex="6" />
       <Label fx:id="speed_info" text="Speed : 1500" GridPane.columnIndex="2" GridPane.rowIndex="5" GridPane.valignment="CENTER" />
       <Label text="Use arrow keys to pilot" GridPane.rowIndex="5" GridPane.valignment="CENTER" />
@@ -23,6 +24,11 @@
       <Button fx:id="stop_video" disable="true" mnemonicParsing="false" onMouseClicked="#stopVideo" text="Stop video" visible="false" GridPane.rowIndex="9" />
       <TextField fx:id="public_ip" alignment="CENTER" promptText="This PC's public IP" GridPane.rowIndex="8" GridPane.valignment="BOTTOM" />
       <Label fx:id="position" prefHeight="67.0" prefWidth="190.0" text="x = 0 ; y = 0 ; θ = 0" wrapText="true" GridPane.rowIndex="3" />
+      <ImageView fitHeight="77.0" fitWidth="76.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="3">
+         <image>
+            <Image url="@../../../../Downloads/bothub.png" />
+         </image>
+      </ImageView>
    </children>
    <columnConstraints>
       <ColumnConstraints maxWidth="190.0" minWidth="10.0" prefWidth="190.0" />
