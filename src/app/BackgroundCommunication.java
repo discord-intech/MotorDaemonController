@@ -24,6 +24,10 @@ public class BackgroundCommunication extends Thread
 
     private boolean motordaemonIsOnline = false;
 
+    public float actualX;
+    public float actualY;
+    public float actualAngle;
+
     public static BackgroundCommunication getInstance()
     {
         if(instance == null) instance = new BackgroundCommunication();
@@ -39,7 +43,14 @@ public class BackgroundCommunication extends Thread
             Double[] p = control.getPosition();
             if(p != null)
             {
+                actualX = p[0].floatValue();
+                actualY = p[1].floatValue();
+                actualAngle = p[2].floatValue();
+
                 Platform.runLater(() -> {
+                    Controller.spotRobot.setLayoutX(actualX * Controller.ratioX -4);
+                    Controller.spotRobot.setLayoutY(actualY * Controller.ratioY -4);
+
                     position.setText("x = "+Float.toString(p[0].floatValue())+" ; y = "
                             + Float.toString(p[1].floatValue())+"\nθ = "+Float.toString(p[2].floatValue()));
                 });

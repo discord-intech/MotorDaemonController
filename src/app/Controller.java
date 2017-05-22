@@ -3,19 +3,29 @@ package app;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseEvent;
+import javafx.scene.input.*;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
+import javafx.stage.Stage;
 import org.freedesktop.gstreamer.*;
 import org.freedesktop.gstreamer.elements.AppSink;
 
+import java.io.IOException;
 import java.nio.ByteOrder;
+import java.util.ArrayList;
 
 
 public class Controller
@@ -61,6 +71,15 @@ public class Controller
     private Bus bus;
     private StringBuilder caps;
     private ImageContainer imageContainer;
+
+    private int cursorX;
+    private int cursorY;
+    public final static double ratioX = 1.0;
+    public final static double ratioY = 1.0;
+
+    public static Circle spotRobot = new Circle(6);
+
+    private ArrayList<Circle> pathSpots = new ArrayList<>();
 
     @FXML
     void onKeyPressed(KeyEvent event)
@@ -128,8 +147,72 @@ public class Controller
             ip_typed.setDisable(true);
             background.setMotordaemonIsOnline(true);
             background.setPostionLabel(position);
-         //   background.start();
+            //   background.start();
+
+            launchMap();
         }
+    }
+
+    private void launchMap()
+    {
+        Stage stage = new Stage();
+        stage.setTitle("Map");
+
+        BorderPane pane = new BorderPane();
+        ImageView img = new ImageView("file:map.png");
+
+        //img.fitWidthProperty().bind(stage.widthProperty());
+        img.fitHeightProperty().bind(stage.heightProperty());
+
+
+        pane.setCenter(img);
+
+        ContextMenu cm = new ContextMenu();
+        MenuItem cmItem1 = new MenuItem("GOTO");
+        cmItem1.setOnAction(e -> {
+
+            pane.getChildren().removeAll(pathSpots);
+            pathSpots.clear();
+
+            String path = control.goTo((int)(cursorX/ratioX), (int)(cursorY/ratioY), 0);
+            for(String p : path.split(";"))
+            {
+                Circle spot = new Circle(4);
+                spot.setFill(Color.DARKRED);
+                spot.setCenterX(4.0f);
+                spot.setCenterY(4.0f);
+
+                double x = Float.parseFloat(p.split(":")[0]) * ratioX  - 3;
+                double y = Float.parseFloat(p.split(":")[1]) * ratioY - 3;
+
+                spot.setLayoutX(x);
+                spot.setLayoutY(y);
+
+                pane.getChildren().add(spot);
+                pathSpots.add(spot);
+            }
+
+            ((Circle)(pane.getChildren().get(pane.getChildren().size()-1))).setFill(Color.BLUE);
+        });
+
+        cm.getItems().add(cmItem1);
+
+        pane.setOnContextMenuRequested(contextMenuEvent -> {
+            cursorX = (int)contextMenuEvent.getX();
+            cursorY = (int)contextMenuEvent.getY();
+            cm.show(stage, contextMenuEvent.getScreenX(), contextMenuEvent.getScreenY());
+        });
+
+        spotRobot.setFill(Color.GREEN);
+        spotRobot.setCenterX(6.0f);
+        spotRobot.setCenterY(6.0f);
+
+
+        pane.getChildren().add(spotRobot);
+
+        stage.setScene(new Scene(pane));
+
+        stage.show();
     }
 
     @FXML

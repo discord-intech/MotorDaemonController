@@ -108,6 +108,13 @@ public class ControlThreading
         }
     }
 
+    public synchronized String goTo(int x, int y, float angle)
+    {
+        return sendAndReceive(
+                "goto "+Integer.toString(x)+" "+Integer.toString(y)+" "+Float.toString(angle),
+                1)[0];
+    }
+
     private synchronized String[] sendAndReceive(String toSend, int numberOfLines)
     {
         if(oos == null || iss == null || socket == null || !socket.isConnected()) return null;
@@ -121,7 +128,7 @@ public class ControlThreading
             for(int i=0 ; i<numberOfLines ; i++)
             {
                 out[i] = iss.readLine();
-                Thread.sleep(20);
+                Thread.sleep(5);
             }
 
         } catch (IOException|InterruptedException e) {

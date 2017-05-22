@@ -9,9 +9,11 @@ import org.freedesktop.gstreamer.Gst;
 
 public class Main extends Application {
 
+    static Parent root;
+
     @Override
     public void start(Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
+        root = FXMLLoader.load(getClass().getResource("sample.fxml"));
         primaryStage.setTitle("MotorDaemon Remote Controller");
         primaryStage.setScene(new Scene(root, 600, 600));
         primaryStage.show();
