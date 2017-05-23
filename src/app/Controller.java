@@ -147,7 +147,7 @@ public class Controller
             ip_typed.setDisable(true);
             background.setMotordaemonIsOnline(true);
             background.setPostionLabel(position);
-            //   background.start();
+            background.start();
 
             launchMap();
         }

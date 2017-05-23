@@ -1,5 +1,7 @@
 package app;
 
+import com.google.common.util.concurrent.SimpleTimeLimiter;
+import com.google.common.util.concurrent.TimeLimiter;
 import javafx.scene.control.ProgressBar;
 import javafx.util.Pair;
 
@@ -7,6 +9,9 @@ import java.io.*;
 import java.net.Socket;
 import java.util.Arrays;
 import java.util.DoubleSummaryStatistics;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 /**
  * Threads de contrôle du véhicule ; singleton
@@ -115,7 +120,7 @@ public class ControlThreading
                 1)[0];
     }
 
-    private synchronized String[] sendAndReceive(String toSend, int numberOfLines)
+    private String[] sendAndReceive(String toSend, int numberOfLines)
     {
         if(oos == null || iss == null || socket == null || !socket.isConnected()) return null;
 
@@ -123,16 +128,19 @@ public class ControlThreading
 
         String[] out = new String[numberOfLines];
 
-        try {
+        synchronized (iss)
+        {
+            try {
 
-            for(int i=0 ; i<numberOfLines ; i++)
-            {
-                out[i] = iss.readLine();
-                Thread.sleep(5);
+                for (int i = 0; i < numberOfLines; i++) {
+                    TimeLimiter timeLimiter = new SimpleTimeLimiter();
+
+                    out[i] = timeLimiter.callWithTimeout(iss::readLine, 5000, TimeUnit.MILLISECONDS);
+                }
+
+            } catch (InterruptedException | ExecutionException | TimeoutException e) {
+                e.printStackTrace();
             }
-
-        } catch (IOException|InterruptedException e) {
-            e.printStackTrace();
         }
 
         return out;
@@ -150,7 +158,7 @@ public class ControlThreading
 
     public Double[] getPosition()
     {
-        String[] sl = sendAndReceive("p", 1);
+        String[] sl = sendAndReceive("pos", 1);
 
         if(sl == null) return null;
 
