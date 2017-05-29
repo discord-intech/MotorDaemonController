@@ -74,8 +74,8 @@ public class Controller
 
     private int cursorX;
     private int cursorY;
-    public final static double ratioX = 1.0;
-    public final static double ratioY = 1.0;
+    public static double ratioX = 1.0;
+    public static double ratioY = 1.0;
 
     public static Circle spotRobot = new Circle(6);
 
@@ -140,7 +140,11 @@ public class Controller
     @FXML
     void connect(MouseEvent event)
     {
-        connected = control.connect(ip_typed.getText());
+        String strip = ip_typed.getText();
+
+        if(strip == null || strip.equals("")) strip = "localhost";
+
+        connected = control.connect(strip);
         status.setText(connected ? "Connection successful !" : "Connection failed !");
         if(connected)
         {
@@ -148,6 +152,8 @@ public class Controller
             background.setMotordaemonIsOnline(true);
             background.setPostionLabel(position);
             background.start();
+
+            control.setAngle((float)Math.PI/2);
 
             launchMap();
         }
@@ -161,9 +167,8 @@ public class Controller
         BorderPane pane = new BorderPane();
         ImageView img = new ImageView("file:map.png");
 
-        //img.fitWidthProperty().bind(stage.widthProperty());
+        img.fitWidthProperty().bind(stage.widthProperty());
         img.fitHeightProperty().bind(stage.heightProperty());
-
 
         pane.setCenter(img);
 
@@ -174,7 +179,17 @@ public class Controller
             pane.getChildren().removeAll(pathSpots);
             pathSpots.clear();
 
-            String path = control.goTo((int)(cursorX/ratioX), (int)(cursorY/ratioY), 0);
+            ratioY = img.getFitHeight()/2000.;
+            ratioX = img.getFitWidth()/3000.;
+
+            System.out.println("Clicked = "+Integer.toString((int)(cursorX/ratioX)-1500) + " ; " + Integer.toString(2000-(int)(cursorY/ratioY)));
+
+            control.setSpeed((float)speed_slider.getValue());
+
+            String path = control.goTo((int)(cursorX/ratioX)-1500, 2000-(int)(cursorY/ratioY), (float) (Math.PI/2));
+
+            System.out.println(path);
+
             for(String p : path.split(";"))
             {
                 Circle spot = new Circle(4);
@@ -182,8 +197,8 @@ public class Controller
                 spot.setCenterX(4.0f);
                 spot.setCenterY(4.0f);
 
-                double x = Float.parseFloat(p.split(":")[0]) * ratioX  - 3;
-                double y = Float.parseFloat(p.split(":")[1]) * ratioY - 3;
+                double x = (Float.parseFloat(p.split(":")[0]) + 1500) * ratioX  - 3;
+                double y = (2000 - Float.parseFloat(p.split(":")[1])) * ratioY - 3;
 
                 spot.setLayoutX(x);
                 spot.setLayoutY(y);
@@ -207,12 +222,18 @@ public class Controller
         spotRobot.setCenterX(6.0f);
         spotRobot.setCenterY(6.0f);
 
+        spotRobot.setLayoutX(img.getFitWidth()/2);
+        spotRobot.setLayoutY(img.getFitHeight());
+
 
         pane.getChildren().add(spotRobot);
 
         stage.setScene(new Scene(pane));
 
         stage.show();
+
+        ratioY = img.getFitHeight()/2000.;
+        ratioX = img.getFitWidth()/3000.;
     }
 
     @FXML

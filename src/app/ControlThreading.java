@@ -85,7 +85,7 @@ public class ControlThreading
 
     }
 
-    private void stop()
+    public void stop()
     {
         send("stop");
     }
@@ -164,10 +164,23 @@ public class ControlThreading
 
         String[] vals = sl[0].split(";");
 
-        x = Double.parseDouble(vals[0]);
-        y = Double.parseDouble(vals[1]);
-        o = Double.parseDouble(vals[2].replace("\r", "").replace("\n", ""));
+        double pastX = x;
+        double pastY = y;
+        double pastO = o;
 
+        try
+        {
+            x = Double.parseDouble(vals[0]);
+            y = Double.parseDouble(vals[1]);
+            o = Double.parseDouble(vals[2].replace("\r", "").replace("\n", ""));
+        } catch (NumberFormatException e)
+        {
+            e.printStackTrace();
+            x = pastX;
+            y = pastY;
+            o = pastO;
+            return null;
+        }
         return new Double[]{x,y,o};
     }
 
@@ -260,4 +273,17 @@ public class ControlThreading
         resetRadius();
     }
 
+    public void setAngle(float angle)
+    {
+        send("setang "+Float.toString(angle));
+    }
+
+    public void setSpeed(float speed) {
+        send("sets "+Float.toString(speed));
+    }
+
+    public boolean isMoving()
+    {
+        return up || down;
+    }
 }

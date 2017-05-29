@@ -48,16 +48,21 @@ public class BackgroundCommunication extends Thread
                 actualAngle = p[2].floatValue();
 
                 Platform.runLater(() -> {
-                    Controller.spotRobot.setLayoutX(actualX * Controller.ratioX -4);
-                    Controller.spotRobot.setLayoutY(actualY * Controller.ratioY -4);
+                    Controller.spotRobot.setLayoutX((actualX + 1500) * Controller.ratioX -3);
+                    Controller.spotRobot.setLayoutY((2000 - actualY) * Controller.ratioY -3);
 
                     position.setText("x = "+Float.toString(p[0].floatValue())+" ; y = "
                             + Float.toString(p[1].floatValue())+"\nθ = "+Float.toString(p[2].floatValue()));
                 });
             }
 
+            if(!control.isMoving())
+            {
+                control.stop();
+            }
+
             try {
-                Thread.sleep(100);
+                Thread.sleep(500);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
