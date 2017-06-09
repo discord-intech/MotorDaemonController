@@ -190,6 +190,8 @@ public class Controller
 
             System.out.println(path);
 
+            path = path.substring(5);
+
             for(String p : path.split(";"))
             {
                 Circle spot = new Circle(4);
